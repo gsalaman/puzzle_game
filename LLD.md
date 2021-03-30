@@ -8,6 +8,7 @@ grid_y =      6  # number of tiles in the y direction
 tile_width = 16  # x dimension of each tile
 tile_height = 16 # y dimension of each tile
 ```
+Note:  if I put these into a seperate file (const.py?) and import it, I think I can reference these ANYWHERE in the program just by doing const.grid_x...a little cleaner than declaring them global in any given function...
 
 `images` is a 2d array of our 6x6 tiles, indexed by "proper" location on the display.  Meaning `images[0][0]` refers to the tile that *belongs* in the top left.
 
@@ -32,3 +33,51 @@ Main Flow --- while true:
 * If we're here, it's either solved or a restart
   * if solved, show "you win" screen and wait 3s (tbr)
   * If restart, show "restarting..." wait 1s (tbr)
+
+## Functions
+```
+##########################################################
+# power_up_init
+#
+# Description:  This function does our one-time power up inits.
+#   Specifically, we break up our input image into tiles using PIL,
+#   and store those tiles into our "images" array.
+#
+#   Note for this version the input image is hardcoded.
+#
+# Parameters:  none
+#
+# Return Value: none
+###########################################################
+def power_up_init():
+  global images
+```
+
+```
+##########################################################
+# game_init
+#
+# Description: This function initializes data needed on a 
+#   game-by-game basis.  Specifically, we randomize our tile
+#   locations (via the "tiles" array
+#
+# Parameters:
+#
+# Return Value:
+#
+# Side Effects:
+###########################################################
+```
+```
+##########################################################
+# func_name
+#
+# Description:
+#
+# Parameters:
+#
+# Return Value:
+#
+# Side Effects:
+###########################################################
+```
