@@ -59,7 +59,7 @@ def power_up_init():
 #
 # Description: This function initializes data needed on a 
 #   game-by-game basis.  Specifically, we randomize our tile
-#   locations (via the "tiles" array
+#   locations (via the "tile_locations") array
 #
 # Parameters:
 #
@@ -67,6 +67,8 @@ def power_up_init():
 #
 # Side Effects:
 ###########################################################
+def game_init():
+  global tile_locations
 ```
 ```
 ##########################################################
