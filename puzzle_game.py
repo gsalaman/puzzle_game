@@ -75,6 +75,61 @@ def show_tile(image_array, src_pos, dest_pos, tile_width, tile_height, matrix):
    
 
 #######################################################
+# populate_scramble
+# 
+# This function returns a 2d list of scrambled tile locations.
+# Each array cell gives the x,y coordinates (0-7) of the tile being displayed in
+# that locaiton. 
+#######################################################
+def populate_scramble():
+
+  standard_spots = [[(i,j) for i in range(8)] for j in range(8)]
+
+  source_list = []
+
+  for row in standard_spots:
+    for item in row:
+      source_list.append(item)
+
+  random.shuffle(source_list)
+  return source_list
+
+#######################################################
+#  highlight_tile
+#
+#  This function highlights a tile with a red boarder in the given x,y location
+#  x,y in this case is TILE x,y (0-7) NOT matrix x,y (0-127)
+#######################################################
+def highlight_tile(matrix, tile):
+  
+  rect_image = Image.new("RGB", (16,16))
+  rect_draw = ImageDraw.Draw(rect_image)
+  rect_draw.rectangle((0,0,15,15), outline = (255,0,0) 
+  
+  x = tile[0] * 16
+  y = tile[1] * 16
+
+  matrix.SetImage(rect_image, x, y)
+
+#######################################################
+# check_for_win
+# 
+# This function checks the passed tile location array to see whether
+# all tiles are in the correct location.  If so, it returns True.
+#######################################################
+def check_for_win(tiles):
+
+  for y in range(8):
+    for x in range(8):
+      tile = tiles[x][y]
+      if (tile[0] != x):
+        return False
+      if (tile[1] != y):
+        return False
+
+  return True
+        
+#######################################################
 if __name__ == '__main__':
   print("initalized")
   
@@ -86,9 +141,53 @@ if __name__ == '__main__':
   for y in range(8):
     for x in range(8):
       show_tile(images, (x,y), (x,y), 16, 16, matrix)
-      time.sleep(1)
-     
-  while True:
-    time.sleep(.1)
 
+  # scramble the tile locations
+  tile_locations = populate_scramble() 
+
+  # and show the scrambled puzzle
+  for y in range(8):
+    for x in range(8):
+      src_location = tile_locations[x][y]
+      dest_location = (x,y)
+      show_tile(images, src_location, dest_location, 16, 16, matrix)
+  
+     
+  game_over = False 
+  while !game_over:
+    
+    # Get a button press.  That corresponds to our source tile.
+    src_tile = get_buttons.wait_for_press()
+
+    # highlight it.
+    highlight_tile(matrix, src_tile)
+
+    # potential debounce goes here...if we need it, wait for a short 
+    # time (50ms?), clear the button queue, then move on to reading dest
+    # tile.
+
+    # now, get a second button press for our destination tile.
+    dest_tile = get_buttons.wait_for_press()
+
+    # swap source and destination
+    # note that src_tile and dest_tile are the x,y of the two chosen tiles.
+    # I'm gonna make src_image and dest_image to show which images
+    # were originally in those 2 locations, then swap them.
+    src_img = tile_locations[src_tile[0]][src_tile[1]]
+    dest_img = tile_locations[dest_tile[0]][dest_tile[1]]
+    tile_locations[src_tile[0]][src_tile[1]] = dest_img
+    tile_locations[dest_tile[0]][dest_tile[1]] = src_img
+
+    # show just those two swapped tiles.  
+    # note that since we've swapped, src_image is in dest_tile and 
+    # dest_image is in src_tile
+    # This will also "undo" the highlight.
+    show_tile(images, src_img, dest_tile, 16, 16, matrix)
+    show_tile(images, dest_img, src_tile, 16, 16, matrix)
+
+    # check for win
+    game_over = check_for_win():
+
+  # This is the end of the while loop.  If we get here, the game is over
+  print("Game Over!")
 
