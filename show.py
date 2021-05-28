@@ -2,6 +2,8 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
 
+import time
+
 ##RGB Matrix Standards
 # Size of one panel
 matrix_rows = 32 
@@ -31,7 +33,7 @@ if __name__ == '__main__':
   # 1st test...just show our pic.  
   solved_puzzle = Image.open("puzzle_game_1.png")
   solved_puzzle = solved_puzzle.convert("RGB")
-  solved.puzzle = solved_puzzle.resize((total_rows, total_columns))
+  solved_puzzle = solved_puzzle.resize((total_rows, total_columns))
 
   matrix.SetImage(solved_puzzle, 0, 0)
 
