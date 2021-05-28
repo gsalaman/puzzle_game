@@ -38,7 +38,7 @@ def build_images(num_x_tiles, num_y_tiles, tile_width, tile_height):
   # first step: open our solved puzzle
   solved_puzzle = Image.open("puzzle_game_1.png")
   solved_puzzle = solved_puzzle.convert("RGB")
-  solved.puzzle = solved_puzzle.resize((total_rows, total_columns))
+  solved_puzzle = solved_puzzle.resize((total_rows, total_columns))
 
   # next, make an empty array for us to populate with images
   images = [[None for i in range(num_x_tiles)] for j in range(num_y_tiles)]
@@ -51,10 +51,12 @@ def build_images(num_x_tiles, num_y_tiles, tile_width, tile_height):
   for y in range (num_y_tiles):
     for x in range (num_x_tiles):
       images[x][y] = solved_puzzle.crop((x_corner, y_corner, 
-                             x_corner + tile_width, y_corner + tile_height)
+                             x_corner + tile_width, y_corner + tile_height))
       x_corner = x_corner + tile_width
     x_corner = 0
     y_corner = y_corner + tile_width
+
+  return images
   
 #######################################################
 # show_tile
