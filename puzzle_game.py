@@ -1,7 +1,9 @@
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from PIL import Image
+from PIL import Image,ImageDraw
 import time
+import random
+import get_buttons
 
 ##RGB Matrix Standards
 # Size of one panel
@@ -93,20 +95,31 @@ def populate_scramble():
     for item in row:
       source_list.append(item)
 
+
   random.shuffle(source_list)
-  return source_list
+
+  # source list is now a 1d array...but we want it to be 2d
+  twod_list = [[None for i in range(8)] for j in range(8)]
+  for j in range(8):
+    for i in range(8):
+      twod_list[i][j] = source_list[j*8+i]
+
+  return twod_list
 
 #######################################################
 #  highlight_tile
 #
 #  This function highlights a tile with a red boarder in the given x,y location
 #  x,y in this case is TILE x,y (0-7) NOT matrix x,y (0-127)
+#  Image is the image currently in that tile.  Right now, I'm making it the 
+#  callers responsibility to pass that, but we may want to do that in here 
+#  instead
 #######################################################
-def highlight_tile(matrix, tile):
+def highlight_tile(matrix, tile, image):
   
-  rect_image = Image.new("RGB", (16,16))
+  rect_image = image 
   rect_draw = ImageDraw.Draw(rect_image)
-  rect_draw.rectangle((0,0,15,15), outline = (255,0,0) 
+  rect_draw.rectangle((0,0,15,15), outline = (255,0,0) )
   
   x = tile[0] * 16
   y = tile[1] * 16
@@ -147,6 +160,8 @@ if __name__ == '__main__':
   # scramble the tile locations
   tile_locations = populate_scramble() 
 
+  print tile_locations
+
   # and show the scrambled puzzle
   for y in range(8):
     for x in range(8):
@@ -156,13 +171,17 @@ if __name__ == '__main__':
   
      
   game_over = False 
-  while !game_over:
+  while game_over == False:
     
     # Get a button press.  That corresponds to our source tile.
     src_tile = get_buttons.wait_for_press()
 
     # highlight it.
-    highlight_tile(matrix, src_tile)
+    # get the current src image location
+    src_img = tile_locations[src_tile[0]][src_tile[1]]
+    tile_image = images[src_img[0]][src_img[1]] 
+    copy_image = tile_image.copy()
+    highlight_tile(matrix, src_tile, copy_image)
 
     # potential debounce goes here...if we need it, wait for a short 
     # time (50ms?), clear the button queue, then move on to reading dest
@@ -188,7 +207,7 @@ if __name__ == '__main__':
     show_tile(images, dest_img, src_tile, 16, 16, matrix)
 
     # check for win
-    game_over = check_for_win():
+    game_over = check_for_win(tile_locations)
 
   # This is the end of the while loop.  If we get here, the game is over
   print("Game Over!")
