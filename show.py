@@ -31,7 +31,7 @@ if __name__ == '__main__':
   print("initalized")
   
   # 1st test...just show our pic.  
-  solved_puzzle = Image.open("puzzle_game_1.png")
+  solved_puzzle = Image.open("pic_2_nolines.png")
   solved_puzzle = solved_puzzle.convert("RGB")
   solved_puzzle = solved_puzzle.resize((total_rows, total_columns))
 

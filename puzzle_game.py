@@ -38,7 +38,7 @@ matrix = RGBMatrix(options = options) #making the matrix for all programs
 def build_images(num_x_tiles, num_y_tiles, tile_width, tile_height):
 
   # first step: open our solved puzzle
-  solved_puzzle = Image.open("puzzle_game_1.png")
+  solved_puzzle = Image.open("pic_2_nolines.png")
   solved_puzzle = solved_puzzle.convert("RGB")
   solved_puzzle = solved_puzzle.resize((total_rows, total_columns))
 
