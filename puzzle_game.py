@@ -24,7 +24,7 @@ options.chain_length = matrix_horizontal
 options.parallel = matrix_vertical
 options.hardware_mapping = 'regular'
 options.gpio_slowdown = 2
-options.pixel_mapper_config = 'U-mapper'
+options.pixel_mapper_config = 'U-mapper;Rotate:180'
 
 matrix = RGBMatrix(options = options) #making the matrix for all programs
 
@@ -186,6 +186,9 @@ if __name__ == '__main__':
     # potential debounce goes here...if we need it, wait for a short 
     # time (50ms?), clear the button queue, then move on to reading dest
     # tile.
+    time.sleep(.1)
+    while (get_buttons.read() != None):
+      pass
 
     # now, get a second button press for our destination tile.
     dest_tile = get_buttons.wait_for_press()
@@ -208,6 +211,11 @@ if __name__ == '__main__':
 
     # check for win
     game_over = check_for_win(tile_locations)
+
+    # and, another button debounce.
+    time.sleep(.1)
+    while (get_buttons.read() != None):
+      pass
 
   # This is the end of the while loop.  If we get here, the game is over
   print("Game Over!")
