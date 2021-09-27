@@ -192,7 +192,6 @@ if __name__ == '__main__':
 
     # now, get a second button press for our destination tile.
     dest_tile = get_buttons.wait_for_press()
-
     # swap source and destination
     # note that src_tile and dest_tile are the x,y of the two chosen tiles.
     # I'm gonna make src_image and dest_image to show which images
@@ -219,4 +218,12 @@ if __name__ == '__main__':
 
   # This is the end of the while loop.  If we get here, the game is over
   print("Game Over!")
+  
+  win_img = Image.new("RGB", (64,32))
+  win_draw = ImageDraw.Draw(win_img)
+  win_draw.text((0,0),"You Win!!!", fill = (255,0,255))
+  matrix.SetImage(win_img, 32,32)
+   
+  time.sleep(5) 
+
 
